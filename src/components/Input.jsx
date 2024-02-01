@@ -55,15 +55,15 @@ const Input = () => {
         }),
       });
     }
-
-    await updateDoc(doc(db, "userChats", currentUser.uid), {
+    /*Create the last message section in userChats,which consists of the latest text. */
+    await updateDoc(doc(db, "userChats", currentUser.uid), {//for the current user
       [data.chatId + ".lastMessage"]: {
         text,
       },
       [data.chatId + ".date"]: serverTimestamp(),
     });
 
-    await updateDoc(doc(db, "userChats", data.user.uid), {
+    await updateDoc(doc(db, "userChats", data.user.uid), {//for the user which is  searched and clicked on,basically the user with which we are communicating.
       [data.chatId + ".lastMessage"]: {
         text,
       },

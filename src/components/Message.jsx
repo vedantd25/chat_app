@@ -15,7 +15,7 @@ const Message = ({ message }) => {
   return (
     <div
       ref={ref}
-      className={`message ${message.senderId === currentUser.uid && "owner"}`}
+      className={`message ${message.senderId === currentUser.uid && "owner"}`} // if the condition message.senderId === currentUser.uid is not fulfilled, the class name will be set as just "message". This is because the string "owner" is only appended to the class name when the condition is true.
     >
       <div className="messageInfo">
         <img

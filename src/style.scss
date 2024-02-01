@@ -254,7 +254,7 @@
             flex-direction: column;
             gap: 10px;
 
-            p {
+            p { //css for sender message
               background-color: white;
               padding: 10px 20px;
               border-radius: 0px 10px 10px 10px;
@@ -266,7 +266,7 @@
             }
           }
 
-          &.owner {
+          &.owner {//css for current user's message.
             flex-direction: row-reverse;
 
             .messageContent {

@@ -14,8 +14,8 @@ import { db } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
 
 const Search = () => {
-  const [username, setUsername] = useState("");
-  const [user, setUser] = useState(null);
+  const [username, setUsername] = useState("");//the name we are going to enter in the search box
+  const [user, setUser] = useState(null);//data of searched user
   const [err, setErr] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
@@ -29,7 +29,7 @@ const Search = () => {
     try {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        setUser(doc.data());
+        setUser(doc.data());// Update user state with the found user data
       });
     } catch (err) {
       setErr(true);
@@ -54,6 +54,10 @@ const Search = () => {
         await setDoc(doc(db, "chats", combinedId), { messages: [] });
 
         //create user chats
+
+            //Here,nested objects are used.Here,updateDoc takes two arguments:the doc to be updated and the changes to be made.Inside the userChats,combinedId(s) are made,which store the data about chats between two users.It consists of userInfo section(uid,displayName,photoURL) and date section(timestamp).[combinedId+".userInfo"]:{} creates an object named userInfo inside the combined id. 
+
+            //For current user
         await updateDoc(doc(db, "userChats", currentUser.uid), {
           [combinedId + ".userInfo"]: {
             uid: user.uid,
@@ -63,6 +67,7 @@ const Search = () => {
           [combinedId + ".date"]: serverTimestamp(),
         });
 
+        //For user to be searched 
         await updateDoc(doc(db, "userChats", user.uid), {
           [combinedId + ".userInfo"]: {
             uid: currentUser.uid,
@@ -71,6 +76,7 @@ const Search = () => {
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
+        //^This creates two entries in the database for two people communicating with each other
       }
     } catch (err) {}
 
